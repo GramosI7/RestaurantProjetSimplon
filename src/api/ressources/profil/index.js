@@ -1,0 +1,1 @@
+export { profilRouter} from './profil.router';
