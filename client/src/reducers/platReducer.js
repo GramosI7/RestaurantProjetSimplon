@@ -1,4 +1,4 @@
-import {ADD_PLAT, GET_PLATS} from "../actions/types";
+import { GET_PLATS} from "../actions/types";
 
 const initialState = {
     plats: []

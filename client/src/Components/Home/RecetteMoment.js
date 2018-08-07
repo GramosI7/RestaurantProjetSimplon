@@ -7,7 +7,7 @@ const RecetteMoment = (props) => {
         {
             props.plats.slice(0,3).map((element, index) => {
                 return (
-                    <Link key={index} className="text-dark nav-link" to={`article/${element._id}`}>
+                    <Link key={index} className="text-dark nav-link" to={`info-plat/${element._id}`}>
                         <li className="row">
                             <img className="col-5" src="http://placehold.it/200X200" alt="photo_img" />
                             <div className="col-7">

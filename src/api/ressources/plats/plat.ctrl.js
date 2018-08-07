@@ -11,7 +11,8 @@ export default {
             const plat = await Plat.create({
               title : req.body.title,
               body : req.body.body,
-              price: req.body.price
+              price: req.body.price,
+              typePlat : req.body.typePlat
             })
             return res.json(plat);
         } catch (err) {

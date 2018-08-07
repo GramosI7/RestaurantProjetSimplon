@@ -20,6 +20,9 @@ import Register from './Containers/Register';
 import AddPlat from './Containers/AddPlat';
 import Dashboard from "./Containers/Dashboard"
 import CreateProfil from './Containers/CreateProfil';
+import EditProfil from './Containers/EditProfil';
+import InfoPlat from './Containers/InfoPlat';
+import CarteRestaurant from './Containers/CarteRestaurant';
 
 
 if(localStorage.jwtToken) {
@@ -51,6 +54,9 @@ class App extends Component {
             <Route exact path="/add" component={AddPlat} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/create-profil" component={CreateProfil} />
+            <Route exact path="/edit-profil" component={EditProfil} />
+            <Route exact path="/info-plat/:id" component={InfoPlat} />
+            <Route exact path="/carte-restaurant" component={CarteRestaurant} />
           </div>
         <Footer/>
         </div>

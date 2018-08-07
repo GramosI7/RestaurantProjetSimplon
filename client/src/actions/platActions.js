@@ -1,4 +1,4 @@
-import {GET_ERRORS, ADD_PLAT, GET_PLATS} from "./types";
+import {GET_ERRORS, GET_PLATS} from "./types";
 import axios from "axios";
 
 

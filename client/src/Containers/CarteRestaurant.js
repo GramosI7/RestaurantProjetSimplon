@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import RecetteMoment from '../Components/Home/RecetteMoment';
-import { Jumbotron } from '../Components/Home/Jumbotron';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {getPlat} from "../actions/platActions";
 
-export class Home extends Component {
-    
+
+class CarteRestaurant extends Component {
+
     state = {
-        plats: []
+        plats : []
     }
 
     componentDidMount = () => {
@@ -23,20 +22,20 @@ export class Home extends Component {
     }
 
   render() {
+      console.log(this.state)
     return (
       <div>
-        <br/>
-        <h1 className="text-center display-4">Simplon FOOD</h1>
-        <RecetteMoment plats={this.state.plats} />
-        <br/>
-        <Jumbotron />
+        <div>
+        <img className="col-5" src="http://placehold.it/200X200" alt="photo_img" />
+        <h3>Petit Déjeuner</h3>
+        </div>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-    plat: state.plat
+    plats: state.plat
 })
 
-export default connect(mapStateToProps, {getPlat})(Home);
+export default connect(mapStateToProps, {getPlat})(CarteRestaurant);

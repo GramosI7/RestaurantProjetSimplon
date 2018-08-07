@@ -4,9 +4,7 @@ import { withRouter } from "react-router-dom";
 import { addPlat } from "../actions/platActions";
 import TextFieldGroup from '../commons/TextFieldGroup';
 import TextFieldAreaGroup from '../commons/TextFieldAreaGroup';
-
-
-
+import SelectListGroup from '../commons/SelectListGroup';
 
 export class AddPlat extends Component {
 
@@ -14,6 +12,7 @@ export class AddPlat extends Component {
         title: "",
         body: "",
         price: "",
+        typePlat: "",
         errors: {}        
     }
 
@@ -23,6 +22,7 @@ export class AddPlat extends Component {
             title: this.state.title,
             body: this.state.body,
             price: this.state.price,
+            typePlat: this.state.typePlat
         }
         this.props.addPlat(platData, this.props.history)
     }
@@ -40,6 +40,15 @@ export class AddPlat extends Component {
   render() {
     const {errors} = this.state;
 
+    const options = [
+        { label: '* Selectionner le type du plat', value: 0 },
+        { label: 'Petit Déjeuner', value: 'Petit Déjeuner' },
+        { label: 'Déjeuner', value: 'Déjeuner' },
+        { label: 'Diner', value: 'Diner' },
+        { label: 'Autre', value: 'Autre' }
+      ];
+
+
     return (
       <div className="row">
         <div className="col-md-8 m-auto">
@@ -56,6 +65,15 @@ export class AddPlat extends Component {
                 onChange={this.onChange}
                 error={errors.title}
                 info="Inserez le titre du plat !"
+                />
+                <SelectListGroup
+                  placeholder="Type du plat"
+                  name="typePlat"
+                  value={this.state.typePlat}
+                  onChange={this.onChange}
+                  options={options}
+                  error={errors.typePlat}
+                  info="Give us an idea of where you are at in your career"
                 />
                 <TextFieldGroup
                 placeholder="* Prix"

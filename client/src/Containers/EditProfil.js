@@ -4,30 +4,18 @@ import {withRouter} from "react-router-dom";
 import {createProfil, getCurrentProfil} from "../actions/profilActions";
 import TextAreaFieldGroup from '../commons/TextFieldAreaGroup';
 import TextFieldGroup from '../commons/TextFieldGroup';
-import InputGroup from '../commons/InputGroup';
-import SelectListGroup from '../commons/SelectListGroup';
-import isEmpty from "../validation/is-Empty"
-
-
 
 export class CreateProfil extends Component {
 
     state = {
-        displaySocialInputs: false,
-        firstName: "",
-        lastName: "",
-        company: "",
-        website: "",
-        location: "",
-        bio: "",
-        status: "",
-        skills: "",
-        twitter : "",
-        facebook : "",
-        linkedin : "",
-        youtube : "",
-        instagram :"",
-        errors: {}        
+        nom: "",
+        prenom: "",
+        phone: "",
+        region: "",
+        ville: "",
+        codePostal: "",
+        rue: "",
+        errors: {}   
     }
 
     componentDidMount = () => {
@@ -37,19 +25,13 @@ export class CreateProfil extends Component {
     onSubmit = e => {
         e.preventDefault();
         const profileData = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            company: this.state.company,
-            website: this.state.website,
-            location: this.state.location,
-            status: this.state.status,
-            skills: this.state.skills,
-            bio: this.state.bio,
-            twitter: this.state.twitter,
-            facebook: this.state.facebook,
-            linkedin: this.state.linkedin,
-            youtube: this.state.youtube,
-            instagram: this.state.instagram
+            prenom: this.state.prenom,
+            nom: this.state.nom,
+            phone: this.state.phone,
+            region: this.state.region,
+            ville: this.state.ville,
+            codePostal: this.state.codePostal,
+            rue: this.state.rue,
         }
         this.props.createProfil(profileData, this.props.history);
     }
@@ -65,103 +47,25 @@ export class CreateProfil extends Component {
 
         if(nextProps.profil.profil) {
             const profil = nextProps.profil.profil;
-            console.log(profil);
-            const skillsCSV = profil.skills.join(",");
-
-            // if profil field doesnt exist, make empty string
-            profil.company = !isEmpty(profil.company) ? profil.company : "";
-            profil.website = !isEmpty(profil.website) ? profil.website : "";
-            profil.location = !isEmpty(profil.location) ? profil.location : "";
-            profil.bio = !isEmpty(profil.bio) ? profil.bio : "";
-            profil.social = !isEmpty(profil.social) ? profil.social : {};
-            profil.twitter = !isEmpty(profil.twitter) ? profil.twitter : "";
-            profil.facebook = !isEmpty(profil.facebook) ? profil.facebook : "";
-            profil.linkedin = !isEmpty(profil.linkedin) ? profil.linkedin : "";
-            profil.instagram = !isEmpty(profil.instagram) ? profil.instagram : "";
 
             this.setState({
-                firstName: profil.firstName,
-                lastName: profil.lastName,
-                company: profil.company,
-                website: profil.website,
-                location: profil.location,
-                status: profil.status,
-                skills: skillsCSV,
-                bio: profil.bio,
-                twitter: profil.social.twitter,
-                facebook: profil.social.facebook,
-                linkedin: profil.social.linkedin,
-                youtube: profil.social.youtube,
-                instagram: profil.social.instagram
+                prenom: profil.prenom,
+                nom: profil.nom,
+                phone: profil.phone,
+                region: profil.region,
+                ville: profil.ville,
+                codePostal: profil.codePostal,
+                rue: profil.rue,
             })
 
         }
     }
  
   render() {
-    const {errors, displaySocialInputs} = this.state;
+    const {errors} = this.state;
 
-    let socialInputs;
 
-    if(displaySocialInputs) {
-        socialInputs = (
-            <div>
-                <InputGroup 
-                placeholder="Twitter Profil URL"
-                name="twitter"
-                icon="fab fa-twitter"
-                value={this.state.twitter}
-                onChange={this.onChange}
-                error={errors.twitter}
-                />
-                <InputGroup 
-                placeholder="Facebook Profil URL"
-                name="facebook"
-                icon="fab fa-facebook"
-                value={this.state.facebook}
-                onChange={this.onChange}
-                error={errors.facebook}
-                />
-                <InputGroup 
-                placeholder="Linkedin Profil URL"
-                name="linkedin"
-                icon="fab fa-linkedin"
-                value={this.state.linkedin}
-                onChange={this.onChange}
-                error={errors.linkedin}
-                />
-                <InputGroup 
-                placeholder="Youtube Profil URL"
-                name="youtube"
-                icon="fab fa-youtube"
-                value={this.state.youtube}
-                onChange={this.onChange}
-                error={errors.youtube}
-                />
-                <InputGroup 
-                placeholder="Instagram Profil URL"
-                name="instagram"
-                icon="fab fa-instagram"
-                value={this.state.instagram}
-                onChange={this.onChange}
-                error={errors.instagram}
-                />
-            </div>       
-        )
-    }
-
-    const options = [
-        { label: '* Select Professional Status', value: 0 },
-        { label: 'Developer', value: 'Developer' },
-        { label: 'Junior Developer', value: 'Junior Developer' },
-        { label: 'Senior Developer', value: 'Senior Developer' },
-        { label: 'Manager', value: 'Manager' },
-        { label: 'Student or Learning', value: 'Student or Learning' },
-        { label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
-        { label: 'Intern', value: 'Intern' },
-        { label: 'Other', value: 'Other' }
-      ];
-
+  
     return (
       <div className="row">
         <div className="col-md-8 m-auto">
@@ -169,77 +73,62 @@ export class CreateProfil extends Component {
             <small className="d-block pb-3">* = required fields</small>
             <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                placeholder="* Profil firstName"
-                name="firstName"
-                value={this.state.firstName}
+                placeholder="* Profil Prénom"
+                name="prenom"
+                value={this.state.prenom}
                 onChange={this.onChange}
-                error={errors.firstName}
-                info="Insert your FirstName"
+                error={errors.prenom}
+                info="Insert your Prénom"
                 />
                 <TextFieldGroup
-                placeholder="* Profil lastName"
-                name="lastName"
-                value={this.state.lastName}
+                placeholder="* Profil nom"
+                name="nom"
+                value={this.state.nom}
                 onChange={this.onChange}
-                error={errors.lastName}
-                info="Insert your lastName"
+                error={errors.nom}
+                info="Insert your nom"
                 />
-                <SelectListGroup
-                placeholder="Status"
-                name="status"
-                value={this.state.status}
+                
+                <TextFieldGroup
+                placeholder="Phone"
+                name="phone"
+                value={this.state.phone}
                 onChange={this.onChange}
-                options={options}
-                error={errors.status}
-                info="Give us an idea of where you are in your career"
+                error={errors.phone}
+                info="Could be yout own phone or one you work for"
                 />
                 <TextFieldGroup
-                placeholder="Website"
-                name="website"
-                value={this.state.website}
+                placeholder="Region"
+                name="region"
+                value={this.state.region}
                 onChange={this.onChange}
-                error={errors.website}
-                info="Could be yout own website or one you work for"
+                error={errors.region}
+                info="Could be yout own region or one you work for"
                 />
                 <TextFieldGroup
-                placeholder="Company"
-                name="company"
-                value={this.state.company}
+                placeholder="Ville"
+                name="ville"
+                value={this.state.ville}
                 onChange={this.onChange}
-                error={errors.company}
-                info="Could be yout own company or one you work for"
+                error={errors.ville}
+                info="Could be yout own ville"
                 />
                 <TextFieldGroup
-                placeholder="Location"
-                name="location"
-                value={this.state.location}
+                placeholder="Code Postal"
+                name="codePostal"
+                value={this.state.codePostal}
                 onChange={this.onChange}
-                error={errors.location}
-                info="Could be yout own location"
-                />
-                <TextFieldGroup
-                placeholder="Skills"
-                name="skills"
-                value={this.state.skills}
-                onChange={this.onChange}
-                error={errors.skills}
-                info="Could be yout own skills or one you work for"
+                error={errors.codePostal}
+                info="Could be yout own codePostal or one you work for"
                 />
                 <TextAreaFieldGroup
-                placeholder="Short Bio"
-                name="bio"
-                value={this.state.bio}
+                placeholder="Rue"
+                name="rue"
+                value={this.state.rue}
                 onChange={this.onChange}
-                error={errors.bio}
+                error={errors.rue}
                 info="Tell us a little about yourself"
                 />
-
-                <div className="mb-3">
-                    <button type="button" onClick={() => {this.setState(prevState => ({displaySocialInputs : !prevState.displaySocialInputs}))}} className="btn btn-light">Add Social Network Links</button>
-                    <span className="text-muted">Optional</span>
-                </div>
-
-                {socialInputs}
 
                 <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
             </form>
