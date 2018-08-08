@@ -60,7 +60,7 @@ class Navbar extends Component {
                             <NavLink to="/" className="nav-link text-white">Home</NavLink><span className="sr-only">(current)</span>
                         </li>
                         <li className="nav-item active ">
-                            <NavLink className="nav-link text-white" to="/carte-restaurant">Carte du Restaurant</NavLink><span className="sr-only">(current)</span>
+                            <NavLink className="nav-link text-white" to="/carte-restaurant">Restaurant menu</NavLink><span className="sr-only">(current)</span>
                         </li>
                         {isAuthenticated ? guestAddArticle : null}    
                     </ul>

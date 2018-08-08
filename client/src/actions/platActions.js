@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export const addPlat = (platData, history) => dispatch => {
-    axios.post('api/plat/', platData)
+    axios.post('/api/plat/', platData)
         .then((response) => history.push("/"))
         .catch((error) => dispatch({
             type: GET_ERRORS,
@@ -12,7 +12,7 @@ export const addPlat = (platData, history) => dispatch => {
 } 
 
 export const getPlat = () => dispatch => {
-    axios.get("api/plat/")
+    axios.get("/api/plat/")
         .then((response) => {
             dispatch({
                 type: GET_PLATS,

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors"
 import "dotenv/config";
 import { connect } from "./config/db";
 import { restRouter } from "./api";
@@ -19,7 +20,7 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
     res.send("dans api")
 });
-
+app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 

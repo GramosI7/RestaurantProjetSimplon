@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import jwt_decode from "jwt-decode";
 
+
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import {clearCurrentProfil} from "./actions/profilActions";
@@ -23,6 +24,7 @@ import CreateProfil from './Containers/CreateProfil';
 import EditProfil from './Containers/EditProfil';
 import InfoPlat from './Containers/InfoPlat';
 import CarteRestaurant from './Containers/CarteRestaurant';
+import CarteInfo from './Containers/CarteInfo';
 
 
 if(localStorage.jwtToken) {
@@ -56,7 +58,8 @@ class App extends Component {
             <Route exact path="/create-profil" component={CreateProfil} />
             <Route exact path="/edit-profil" component={EditProfil} />
             <Route exact path="/info-plat/:id" component={InfoPlat} />
-            <Route exact path="/carte-restaurant" component={CarteRestaurant} />
+            <Route exact path="/carte-restaurant/" component={CarteRestaurant} />
+            <Route exact path="/carte/:choice" component={CarteInfo} />
           </div>
         <Footer/>
         </div>

@@ -1,5 +1,18 @@
 import Plat from "./plat.model";
 import PlatServices from "./plat.service";
+import multer from "multer";
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './client/public/uploads/')
+  },
+  filename: function(req, file, cb){
+    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+var upload = multer({ storage: storage }).single('picture');
+
 
 export default {
     async create(req, res) {
@@ -8,12 +21,21 @@ export default {
             if (!isValid) {
               return res.status(400).json(errors);
           }
+          upload(req, res, (err) => {
+            if (err) {
+              return res.status(404).json({err: 'Upload img is necessary'})
+            }
+              return console.log(req.file);
+          })
             const plat = await Plat.create({
               title : req.body.title,
               body : req.body.body,
               price: req.body.price,
-              typePlat : req.body.typePlat
-            })
+              typePlat : req.body.typePlat,
+              picture: req.file.filename
+            }, () => console.log(req.file)
+            )
+            console.log(req.file)
             return res.json(plat);
         } catch (err) {
             console.error(err);

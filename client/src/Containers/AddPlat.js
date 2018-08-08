@@ -13,6 +13,7 @@ export class AddPlat extends Component {
         body: "",
         price: "",
         typePlat: "",
+        picture: "",
         errors: {}        
     }
 
@@ -22,7 +23,8 @@ export class AddPlat extends Component {
             title: this.state.title,
             body: this.state.body,
             price: this.state.price,
-            typePlat: this.state.typePlat
+            typePlat: this.state.typePlat,
+            picture: this.state.picture
         }
         this.props.addPlat(platData, this.props.history)
     }
@@ -42,10 +44,11 @@ export class AddPlat extends Component {
 
     const options = [
         { label: '* Selectionner le type du plat', value: 0 },
-        { label: 'Petit Déjeuner', value: 'Petit Déjeuner' },
-        { label: 'Déjeuner', value: 'Déjeuner' },
-        { label: 'Diner', value: 'Diner' },
-        { label: 'Autre', value: 'Autre' }
+        { label: 'Breakfast', value: 'Breakfast' },
+        { label: 'Lunch', value: 'Lunch' },
+        { label: 'Dinner', value: 'Dinner' },
+        { label: 'Others', value: 'Others' }
+        
       ];
 
 
@@ -57,41 +60,41 @@ export class AddPlat extends Component {
                 Ajoute les informations du plat.
             </p>
             <small className="d-block pb-3">* = required fields</small>
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit} encType="multipart/form-data">
                 <TextFieldGroup
-                placeholder="* Titre"
-                name="title"
-                value={this.state.title}
-                onChange={this.onChange}
-                error={errors.title}
-                info="Inserez le titre du plat !"
+                    placeholder="* Titre"
+                    name="title"
+                    value={this.state.title}
+                    onChange={this.onChange}
+                    error={errors.title}
+                    info="Inserez le titre du plat !"
                 />
                 <SelectListGroup
-                  placeholder="Type du plat"
-                  name="typePlat"
-                  value={this.state.typePlat}
-                  onChange={this.onChange}
-                  options={options}
-                  error={errors.typePlat}
-                  info="Give us an idea of where you are at in your career"
+                    placeholder="Type du plat"
+                    name="typePlat"
+                    value={this.state.typePlat}
+                    onChange={this.onChange}
+                    options={options}
+                    error={errors.typePlat}
+                    info="Give us an idea of where you are at in your career"
                 />
                 <TextFieldGroup
-                placeholder="* Prix"
-                name="price"
-                value={this.state.price}
-                onChange={this.onChange}
-                error={errors.price}
-                info="Inserez le prix du plat"
+                    placeholder="* Prix"
+                    name="price"
+                    value={this.state.price}
+                    onChange={this.onChange}
+                    error={errors.price}
+                    info="Inserez le prix du plat"
                 />
-
                 <TextFieldAreaGroup
-                placeholder="* Descritption"
-                name="body"
-                value={this.state.body}
-                onChange={this.onChange}
-                error={errors.body}
-                info="Inserez la description du plat"
+                    placeholder="* Descritption"
+                    name="body"
+                    value={this.state.body}
+                    onChange={this.onChange}
+                    error={errors.body}
+                    info="Inserez la description du plat"
                 />
+                <input type="file" name="picture" value={this.state.picture} onChange={this.onChange}/>
                 
                 <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
             </form>
