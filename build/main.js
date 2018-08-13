@@ -222,6 +222,10 @@ var _passport2 = _interopRequireDefault(_passport);
 
 var _passportJwt = __webpack_require__(36);
 
+var _bodyParser = __webpack_require__(38);
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var port = process.env.port;
@@ -238,9 +242,10 @@ app.get("/", function (req, res) {
 app.get("/api", function (req, res) {
     res.send("dans api");
 });
+
 app.use((0, _cors2.default)());
-app.use(_express2.default.urlencoded({ extended: false }));
-app.use(_express2.default.json());
+app.use(_bodyParser2.default.json());
+app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
 app.use(_passport2.default.initialize());
 (0, _passportJwt.configJWTStrategy)();
@@ -474,9 +479,6 @@ exports.default = {
                             return _context.abrupt('return', res.status(500).send(_context.t0));
 
                         case 23:
-                            return _context.abrupt('return', res.json(req.body));
-
-                        case 24:
                         case 'end':
                             return _context.stop();
                     }
@@ -551,9 +553,6 @@ exports.default = {
                 }
             }, _callee2, _this2, [[0, 16]]);
         }))();
-    },
-    authenticate: function authenticate(req, res) {
-        return res.json(req.user);
     }
 };
 
@@ -1367,10 +1366,10 @@ exports.default = {
     validateSignup: function validateSignup(body) {
         var errors = {};
 
-        body.pseudo = !(0, _isEmpty2.default)(body.pseudo) ? body.pseudo : "";
-        body.email = !(0, _isEmpty2.default)(body.email) ? body.email : "";
-        body.password = !(0, _isEmpty2.default)(body.password) ? body.password : "";
-        body.password2 = !(0, _isEmpty2.default)(body.password2) ? body.password2 : "";
+        // body.pseudo = !isEmpty(body.pseudo) ? body.pseudo : "";
+        // body.email = !isEmpty(body.email) ? body.email : "";
+        // body.password = !isEmpty(body.password) ? body.password : "";
+        // body.password2 = !isEmpty(body.password2) ? body.password2 : "";
 
         if (!_validator2.default.isLength(body.pseudo, { min: 2, max: 30 })) {
             errors.pseudo = "Votre pseudo doit contenir entre 2 et 30 caracteres.";
@@ -1532,7 +1531,7 @@ var storage = _multer2.default.diskStorage({
 
 var upload = (0, _multer2.default)({ storage: storage });
 
-platRouter.route("/").post(_passport2.default.authenticate("jwt", { session: false }), upload.single("picture"), _plat2.default.create).get(_plat2.default.findAll);
+platRouter.route("/").post(upload.single("picture"), _plat2.default.create).get(_plat2.default.findAll);
 
 platRouter.route("/:id").get(_plat2.default.findOne).put(_passport2.default.authenticate("jwt", { session: false }), _plat2.default.update).delete(_passport2.default.authenticate("jwt", { session: false }), _plat2.default.delete);
 
@@ -1576,7 +1575,7 @@ var storage = _multer2.default.diskStorage({
   }
 });
 
-var upload = (0, _multer2.default)({ storage: storage }).single('picture');
+var upload = (0, _multer2.default)({ storage: storage });
 
 exports.default = {
   create: function create(req, res) {
@@ -1602,9 +1601,10 @@ exports.default = {
             case 4:
               upload(req, res, function (err) {
                 if (err) {
-                  return res.status(404).json({ err: 'Upload img is necessary' });
+                  return res.status(404).json({ picture: 'Upload img is necessary' });
                 }
-                return console.log(req.file);
+                console.log("reqFile", req.file);
+                console.log("reqBody", req.body);
               });
               _context.next = 7;
               return _plat2.default.create({
@@ -1613,29 +1613,28 @@ exports.default = {
                 price: req.body.price,
                 typePlat: req.body.typePlat,
                 picture: req.file.filename
-              }, function () {
-                return console.log(req.file);
               });
 
             case 7:
               plat = _context.sent;
 
-              console.log(req.file);
-              return _context.abrupt("return", res.json(plat));
+              res.json(plat);
+              _context.next = 15;
+              break;
 
-            case 12:
-              _context.prev = 12;
+            case 11:
+              _context.prev = 11;
               _context.t0 = _context["catch"](0);
 
               console.error(_context.t0);
               return _context.abrupt("return", res.status(500).send(_context.t0));
 
-            case 16:
+            case 15:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, _this, [[0, 12]]);
+      }, _callee, _this, [[0, 11]]);
     }))();
   },
   findAll: function findAll(req, res) {
@@ -1860,17 +1859,16 @@ var platSchema = new Schema({
     },
 
     picture: {
-        type: String
-        // required: true
+        type: String,
+        required: true
     },
-
+    body: {
+        type: String,
+        required: true
+    },
     date: {
         type: String,
         default: (0, _moment2.default)().format("Do MMMM YYYY")
-    },
-
-    body: {
-        type: String
     }
 
 });
@@ -2026,7 +2024,7 @@ exports.default = {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return _profil2.default.findOne({ user: req.user.id }).populate("user", ["pseudo", "avatar"]);
+              return _profil2.default.findOne({ user: req.user.id }).populate("user", ["pseudo", "email", "avatar"]);
 
             case 3:
               profil = _context.sent;
@@ -2067,7 +2065,7 @@ exports.default = {
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return _profil2.default.find({}).populate('user', ['pseudo', 'avatar']);
+              return _profil2.default.find({}).populate('user', ['pseudo', "email", 'avatar']);
 
             case 3:
               profil = _context2.sent;
@@ -2140,7 +2138,7 @@ exports.default = {
                   // Check if nom exists
                   _profil2.default.findOne({ nom: profileFields.nom }).then(function (profil) {
                     if (profil) {
-                      errors.lastName = 'That handle already exists';
+                      errors.lastName = 'That nom already exists';
                       res.status(400).json(errors);
                     }
                     // Save Profil
@@ -2383,6 +2381,12 @@ var configJWTStrategy = exports.configJWTStrategy = function configJWTStrategy()
 /***/ (function(module, exports) {
 
 module.exports = require("passport-jwt");
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = require("body-parser");
 
 /***/ })
 /******/ ]);

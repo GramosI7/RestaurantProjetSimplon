@@ -6,6 +6,7 @@ import TextFieldGroup from '../commons/TextFieldGroup';
 import TextFieldAreaGroup from '../commons/TextFieldAreaGroup';
 import SelectListGroup from '../commons/SelectListGroup';
 
+
 export class AddPlat extends Component {
 
     state = {
@@ -17,28 +18,34 @@ export class AddPlat extends Component {
         errors: {}        
     }
 
-    onSubmit = e => {
-        e.preventDefault();
-        const platData = {
-            title: this.state.title,
-            body: this.state.body,
-            price: this.state.price,
-            typePlat: this.state.typePlat,
-            picture: this.state.picture
-        }
-        this.props.addPlat(platData, this.props.history)
-    }
-
-    onChange = e => {
-        this.setState({[e.target.name] : e.target.value})
-    }
-
     componentWillReceiveProps = (nextProps) => {
         if(nextProps.errors) {
             this.setState({errors: nextProps.errors})
         }
     }
- 
+
+    onSubmit = e => {
+            e.preventDefault();
+            const platData = {
+                title: this.state.title,
+                body: this.state.body,
+                price: this.state.price,
+                typePlat: this.state.typePlat,
+                picture: this.state.picture
+            }
+            this.props.addPlat(platData, this.props.history)
+    }
+
+    onChange = e => {
+        switch (e.target.name) {
+            case 'picture':
+              this.setState({ picture : e.target.files[0] });
+              break;
+            default:
+              this.setState({ [e.target.name]: e.target.value });
+          }
+    }
+    
   render() {
     const {errors} = this.state;
 
@@ -48,7 +55,6 @@ export class AddPlat extends Component {
         { label: 'Lunch', value: 'Lunch' },
         { label: 'Dinner', value: 'Dinner' },
         { label: 'Others', value: 'Others' }
-        
       ];
 
 
@@ -60,7 +66,7 @@ export class AddPlat extends Component {
                 Ajoute les informations du plat.
             </p>
             <small className="d-block pb-3">* = required fields</small>
-            <form onSubmit={this.onSubmit} encType="multipart/form-data">
+            <form  onSubmit={this.onSubmit}>
                 <TextFieldGroup
                     placeholder="* Titre"
                     name="title"
@@ -94,9 +100,10 @@ export class AddPlat extends Component {
                     error={errors.body}
                     info="Inserez la description du plat"
                 />
-                <input type="file" name="picture" value={this.state.picture} onChange={this.onChange}/>
+
+                <input type="file" name="picture" onChange={this.onChange}/>
                 
-                <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
+                <button type="submit" className="btn btn-info btn-block mt-4">Envoyer</button>
             </form>
         </div>
       </div>

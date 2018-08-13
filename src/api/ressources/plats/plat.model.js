@@ -21,17 +21,18 @@ const platSchema = new Schema({
 
     picture: {
         type: String,
-        // required: true
+        required: true
     },
-
+    body: {
+        type: String,
+        required: true
+    },
     date:{
         type: String,
         default: moment().format("Do MMMM YYYY")
     },
     
-    body: {
-        type: String
-    }
+    
 
 })
 

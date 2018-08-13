@@ -14,10 +14,10 @@ export default {
     validateSignup(body) {
         let errors = {};
 
-        body.pseudo = !isEmpty(body.pseudo) ? body.pseudo : "";
-        body.email = !isEmpty(body.email) ? body.email : "";
-        body.password = !isEmpty(body.password) ? body.password : "";
-        body.password2 = !isEmpty(body.password2) ? body.password2 : "";
+        // body.pseudo = !isEmpty(body.pseudo) ? body.pseudo : "";
+        // body.email = !isEmpty(body.email) ? body.email : "";
+        // body.password = !isEmpty(body.password) ? body.password : "";
+        // body.password2 = !isEmpty(body.password2) ? body.password2 : "";
     
         if(!validator.isLength(body.pseudo, { min : 2, max : 30 })){
             errors.pseudo = "Votre pseudo doit contenir entre 2 et 30 caracteres.";

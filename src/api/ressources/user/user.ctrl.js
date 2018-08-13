@@ -35,7 +35,6 @@ export default {
             console.error(err);
             return res.status(500).send(err);
         }
-        return res.json(req.body);
     },
 
     async login(req, res) {
@@ -68,7 +67,7 @@ export default {
          }
     },
 
-    authenticate(req,res) {
-        return res.json(req.user);
-    },
+    // authenticate(req,res) {
+    //     return res.json(req.user);
+    // },
 };

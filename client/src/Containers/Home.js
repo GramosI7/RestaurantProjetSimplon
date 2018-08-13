@@ -4,6 +4,7 @@ import { Jumbotron } from '../Components/Home/Jumbotron';
 import { connect } from "react-redux";
 import {getPlat} from "../actions/platActions";
 
+
 export class Home extends Component {
     
     state = {

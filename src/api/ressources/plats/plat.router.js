@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 platRouter.route("/")
-  .post(passport.authenticate("jwt", {session:false}), upload.single("picture"), platCtrl.create)
+  .post(upload.single("picture"), platCtrl.create)
   .get(platCtrl.findAll)
 
 platRouter.route("/:id")

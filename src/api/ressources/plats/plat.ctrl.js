@@ -11,7 +11,7 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage: storage }).single('picture');
+var upload = multer({ storage: storage });
 
 
 export default {
@@ -23,9 +23,10 @@ export default {
           }
           upload(req, res, (err) => {
             if (err) {
-              return res.status(404).json({err: 'Upload img is necessary'})
+              return res.status(404).json({picture: 'Upload img is necessary'})
             }
-              return console.log(req.file);
+              console.log("reqFile",req.file);
+              console.log("reqBody",req.body)
           })
             const plat = await Plat.create({
               title : req.body.title,
@@ -33,10 +34,8 @@ export default {
               price: req.body.price,
               typePlat : req.body.typePlat,
               picture: req.file.filename
-            }, () => console.log(req.file)
-            )
-            console.log(req.file)
-            return res.json(plat);
+            })
+            res.json(plat);
         } catch (err) {
             console.error(err);
             return res.status(500).send(err);
@@ -55,7 +54,7 @@ export default {
             }
     },
     async findOne(req, res){
-        try{
+        try {
           const { id } = req.params
           const plat = await Plat.findById(id);
           if(!plat){

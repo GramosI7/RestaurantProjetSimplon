@@ -5,7 +5,7 @@ import { connect } from "./config/db";
 import { restRouter } from "./api";
 import passport from "passport";
 import { configJWTStrategy} from './api/middlewares/passport-jwt';
-
+import bodyParser from "body-parser";
 
 const { port } = process.env;
 
@@ -20,9 +20,10 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
     res.send("dans api")
 });
+
 app.use(cors())
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(passport.initialize())
 configJWTStrategy();

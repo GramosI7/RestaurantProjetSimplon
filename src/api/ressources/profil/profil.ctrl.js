@@ -6,7 +6,7 @@ export default {
     async findOneMe(req, res){
         try{
           const profil = await Profil.findOne({user: req.user.id})
-          .populate("user", ["pseudo", "avatar"])
+          .populate("user", ["pseudo", "email", "avatar"])
             if(!profil){
                 return res.status(404).json({err:'You do not have to create your profile.'})
             }
@@ -19,7 +19,7 @@ export default {
       async findAll(req, res){
         try{
           const profil = await Profil.find({})
-          .populate('user', ['pseudo', 'avatar']);
+          .populate('user', ['pseudo', "email", 'avatar']);
           if(!profil){
             return res.status(404).json({err:'could not find this a user'})
           }
@@ -58,7 +58,7 @@ export default {
                   // Check if nom exists
                   Profil.findOne({ nom: profileFields.nom }).then(profil => {
                     if (profil) {
-                      errors.lastName = 'That handle already exists';
+                      errors.lastName = 'That nom already exists';
                       res.status(400).json(errors);
                     }
                     // Save Profil
