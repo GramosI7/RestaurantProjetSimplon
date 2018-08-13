@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 import compose from "recompose/compose";
 import { getPlat } from "../actions/platActions";
 import { withStyles } from "@material-ui/core/styles";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { addCard } from "../actions/cardActions";
+
 
 const styles = {
   card: {
@@ -41,6 +43,10 @@ class CarteInfo extends Component {
     }
   };
 
+  addCard = cardData => {
+    this.props.addCard(cardData);
+  };
+
   render() {
     const { classes } = this.props;
     console.log(this.state.plats);
@@ -53,41 +59,42 @@ class CarteInfo extends Component {
         <div className="row">
           {this.state.plats
             .filter(filter => {
-              if(this.props.match.params.choice === "All") {
-                return this.state.plats
+              if (this.props.match.params.choice === "All") {
+                return this.state.plats;
               } else {
                 return filter.typePlat === this.props.match.params.choice;
               }
-            }).map((element, index) => {
+            })
+            .map((element, index) => {
               return (
                 <div key={index} className="col-4">
-                <Link to={{pathname:`/info-plat/${element._id}`}}>
-                  <Card className={classes.card}>
-                    <CardMedia
-                      className={classes.media}
-                      image="https://media.istockphoto.com/photos/pizza-picture-id475998900?k=6&m=475998900&s=612x612&w=0&h=kLJtdiHykZaifArf4jcaGlX4PwZ4xT_JWIwQTHgQZHk="
-                      title="Pizza"
-                    />
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant="headline"
-                        component="h2"
-                      >
-                        {element.title}
-                      </Typography>
-                      <Typography component="p">{element.body}</Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" color="secondary">
-                        {element.price}
-                      </Button>
-                      <Button size="small" color="primary">
-                        Command
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Link>
+                    <Card className={classes.card}>
+                      <Link to={{ pathname: `/info-plat/${element._id}` }}>
+                        <CardMedia
+                          className={classes.media}
+                          image="https://media.istockphoto.com/photos/pizza-picture-id475998900?k=6&m=475998900&s=612x612&w=0&h=kLJtdiHykZaifArf4jcaGlX4PwZ4xT_JWIwQTHgQZHk="
+                          title="Pizza"
+                        />
+                      </Link>
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="headline"
+                          component="h2"
+                        >
+                          {element.title}
+                        </Typography>
+                        <Typography component="p">{element.body}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" color="secondary">
+                          {element.price}
+                        </Button>
+                        <Button onClick={(e) => {this.addCard(element)}} size="small" color="primary">
+                          Command
+                        </Button>
+                      </CardActions>
+                    </Card>
 
                   <br />
                 </div>
@@ -107,6 +114,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlat }
+    { getPlat, addCard }
   )
 )(CarteInfo);

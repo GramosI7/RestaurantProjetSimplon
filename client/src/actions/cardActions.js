@@ -8,8 +8,9 @@ export const addCard = (cardData) => dispatch => {
 }
 
 export const removeCard = (cardData) => dispatch => {
+    console.log(cardData)
     dispatch({
         type: REMOVE_CARD,
-        payload: cardData
+        payload: cardData.id
     })
 }

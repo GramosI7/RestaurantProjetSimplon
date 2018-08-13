@@ -6,15 +6,15 @@ export default function(state = initialState, action) {
     switch(action.type) {
         case ADD_CARD:
             return [...state, {
-                id: action.payload.id,
+                id: action.payload._id,
                 title: action.payload.title,
                 body: action.payload.body,
                 typePlat: action.payload.typePlat,
                 price: action.payload.price
             }]
         case REMOVE_CARD:
-            console.log("REMOVE-ADD")
-            return state.filter(productId => action.productId !== productId)
+            console.log(action.payload)
+            return state.filter(productId => productId.id !== action.payload)
         default: 
             return state;
     }

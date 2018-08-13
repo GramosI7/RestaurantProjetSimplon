@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import {removeCard} from "../actions/cardActions";
+import {Link} from "react-router-dom"
 
 
 export class cardShop extends Component {
@@ -13,16 +14,18 @@ export class cardShop extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     if(nextProps.cards.length) {
-      console.log("okok");
-      
       this.setState({
         cards: nextProps.cards
+      })
+    } else if (Object.keys(nextProps.cards).length === 0) {
+      this.setState({
+        cards: []
       })
     }
   }
 
-  removeCard = () => {
-    this.props.removeCard();
+  removeCard = (element) => {
+    this.props.removeCard(element);
   }
 
   render() {
@@ -36,7 +39,7 @@ export class cardShop extends Component {
                 <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th scope="col"> </th>
+                      <th scope="col"></th>
                       <th scope="col">Product</th>
                       <th scope="col">Available</th>
                       <th scope="col" className="text-center">Quantity
@@ -52,7 +55,7 @@ export class cardShop extends Component {
 
                     {this.state.cards.map((element, index) => {
                       return (
-                        <tr>
+                        <tr key={index}>
                         <td>
                           <img src="https://dummyimage.com/50x50/55595c/fff" alt="img-product"/>{" "}
                         </td>
@@ -63,7 +66,7 @@ export class cardShop extends Component {
                         </td>
                         <td className="text-right">{element.price}</td>
                         <td className="text-right">
-                          <button onClick={this.removeCard} className="btn btn-sm btn-danger">
+                          <button onClick={(e) => this.removeCard(element)} className="btn btn-sm btn-danger">
                             <i className="fa fa-trash" />{" "}
                           </button>{" "}
                         </td>
@@ -105,9 +108,9 @@ export class cardShop extends Component {
             <div className="col mb-2">
               <div className="row">
                 <div className="col-sm-12  col-md-6">
-                  <button className="btn btn-block btn-light">
+                  <Link to="/carte-restaurant" className="btn btn-block btn-light">
                     Continue Shopping
-                  </button>
+                  </Link>
                 </div>
                 <div className="col-sm-12 col-md-6 text-right">
                   <button className="btn btn-lg btn-block btn-success text-uppercase">
